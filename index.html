@@ -2,159 +2,199 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Philpw - Official Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS VARIABLEN --- */
+        /* --- CORE VARIABLES --- */
         :root {
-            --bg-color: #050505; --bg-gradient: radial-gradient(circle at top, #1a1a1a 0%, #050505 100%);
-            --card-bg: #121212; --border-color: #222222; --accent-color: #ffffff;
-            --text-main: #ffffff; --text-dim: #888888; --hover-bg: rgba(255, 255, 255, 0.05);
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            --bg-color: #050505; --bg-gradient: radial-gradient(circle at top, #111 0%, #000 100%);
+            --card-bg: rgba(18, 18, 18, 0.85); --border-color: #2a2a2a; --accent-color: #ffffff;
+            --text-main: #ffffff; --text-dim: #999999; --hover-bg: rgba(255, 255, 255, 0.05);
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.9); --glass: blur(12px); --success: #00ff66; --danger: #ff3333;
         }
         body.neon-mode {
-            --bg-color: #020005; --bg-gradient: radial-gradient(circle at top, #1a0033 0%, #020005 100%);
-            --card-bg: #0a001a; --border-color: #ff00ff; --accent-color: #00ffff;
-            --text-main: #ffffff; --text-dim: #ffb3ff; --hover-bg: rgba(0, 255, 255, 0.1); --shadow: 0 0 20px rgba(255, 0, 255, 0.3);
-            cursor: crosshair;
+            --bg-color: #030008; --bg-gradient: radial-gradient(circle at top, #1a0033 0%, #030008 100%);
+            --card-bg: rgba(10, 0, 26, 0.85); --border-color: #ff00ff; --accent-color: #00ffff;
+            --text-main: #ffffff; --text-dim: #ffb3ff; --hover-bg: rgba(0, 255, 255, 0.1); 
+            --shadow: 0 0 30px rgba(255, 0, 255, 0.2); --success: #00ffcc; --danger: #ff0055;
         }
 
-        /* --- GLOBAL & CUSTOM SCROLLBAR --- */
-        * { cursor: crosshair !important; box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 10px; }
+        /* --- GLOBAL SETUP --- */
+        * { cursor: crosshair !important; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
-
-        body { margin: 0; padding: 0; background-color: var(--bg-color); background-image: var(--bg-gradient); color: var(--text-main); font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: all 0.3s ease; scroll-behavior: smooth; }
         
+        body { margin: 0; padding: 0; background-color: var(--bg-color); background-image: var(--bg-gradient); color: var(--text-main); font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: background 0.4s ease; scroll-behavior: smooth; }
+        
+        /* --- BACKGROUND PARTICLES --- */
+        #particles { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.4; }
+
+        /* --- OFFLINE BANNER & BROADCAST --- */
+        #offline-banner, #broadcast-banner { display: none; width: 100%; text-align: center; padding: 10px; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; z-index: 1000; position: sticky; top: 0; }
+        #offline-banner { background: var(--danger); color: #fff; }
+        #broadcast-banner { background: var(--accent-color); color: var(--bg-color); }
+
         /* --- NAVIGATION --- */
-        nav { width: 100%; max-width: 1200px; margin-top: 20px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; position: sticky; top: 0; background: var(--bg-color); z-index: 50; padding-top: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
-        .logo { font-size: 2.5rem; font-weight: 900; color: var(--accent-color); text-transform: uppercase; letter-spacing: -1px; margin: 0; cursor: pointer; }
-        .nav-links { display: flex; gap: 25px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; cursor:pointer; }
+        nav { width: 100%; max-width: 1200px; margin-top: 10px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; position: sticky; top: 0; background: rgba(5,5,5,0.8); backdrop-filter: var(--glass); z-index: 50; border-bottom: 1px solid var(--border-color); border-radius: 0 0 20px 20px; }
+        .logo { font-size: 2.2rem; font-weight: 900; color: var(--accent-color); text-transform: uppercase; letter-spacing: -2px; margin: 0; cursor: pointer; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; cursor:pointer; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--accent-color); transition: width 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
-        .nav-utils { display: flex; gap: 15px; align-items: center; }
-        .util-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .util-btn:hover { color: var(--accent-color); border-color: var(--accent-color); }
-        .btn-login { background-color: var(--accent-color); color: var(--bg-color); padding: 10px 24px; border-radius: 50px; font-weight: 900; text-transform: uppercase; font-size: 0.8rem; border: none; transition: transform 0.2s; cursor: pointer;}
-        .btn-login:hover { transform: scale(1.05); opacity: 0.9; }
-
-        /* --- SECTIONS & PANELS --- */
-        .section { display: none; width: 100%; max-width: 1200px; animation: fadeIn 0.4s ease forwards; padding: 0 20px; margin-bottom: 50px; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .content-panel { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 32px; padding: 30px; box-shadow: var(--shadow); margin-bottom: 30px; position: relative; }
-        .content-panel h2 { margin-top: 0; text-transform: uppercase; font-weight: 900; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-
-        /* --- MAP CARDS --- */
-        .map-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
-        .map-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 32px; padding: 24px; width: 380px; box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; position: relative; }
-        .map-card:hover { transform: translateY(-8px); border-color: var(--accent-color); }
-        .map-thumbnail { width: 100%; border-radius: 20px; margin-bottom: 15px; object-fit: cover; }
-        .map-card h2 { font-size: 1.8rem; text-align: center; margin-bottom: 10px; }
-        .status-dot { display: inline-block; width: 10px; height: 10px; background: #00ff00; border-radius: 50%; margin-right: 5px; box-shadow: 0 0 10px #00ff00; }
-        .patch-link { font-size: 0.8rem; color: var(--text-dim); text-align: center; display: block; margin-bottom: 15px; text-decoration: underline; }
-        .tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-        .tag { background-color: #000; border: 1px solid var(--border-color); color: var(--text-dim); padding: 6px 16px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; }
-        .features-list { list-style: none; padding: 0; margin: 0 0 30px 0; flex-grow: 1; }
-        .features-list li { margin-bottom: 12px; font-size: 0.95rem; color: var(--text-dim); display: flex; align-items: center; }
-        .features-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; background-color: var(--accent-color); border-radius: 50%; margin-right: 15px; }
+        .nav-utils { display: flex; gap: 10px; align-items: center; }
 
         /* --- BUTTONS --- */
-        .btn { width: 100%; border: none; padding: 16px 0; border-radius: 50px; font-family: inherit; font-size: 1rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; display: block; margin-bottom: 10px; position: relative; overflow: hidden; }
-        .btn-primary { background-color: var(--accent-color); color: var(--bg-color); }
-        .btn-primary:hover { transform: scale(1.02); opacity: 0.8; }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn { width: 100%; border: none; padding: 16px; border-radius: 15px; font-family: inherit; font-size: 0.95rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 10px; position: relative; overflow: hidden; margin-bottom: 12px; letter-spacing: 1px; }
+        .btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; background: rgba(255,255,255,0.5); opacity: 0; border-radius: 100%; transform: scale(1) translate(-50%, -50%); transform-origin: 50% 50%; }
+        .btn:active::after { transform: scale(50) translate(-50%, -50%); opacity: 1; transition: transform 0.5s, opacity 0.5s; }
+        .btn-primary { background-color: var(--accent-color); color: var(--bg-color); box-shadow: 0 4px 15px rgba(255,255,255,0.1); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,255,255,0.2); }
         .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--border-color); }
-        .btn-secondary:hover { border-color: var(--accent-color); background-color: var(--hover-bg); }
-        .btn-google { background-color: #4285F4; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-google:hover { background-color: #357ae8; }
-        .btn-delete { background-color: transparent; color: #ff3333; border: 1px solid #ff3333; padding: 5px 10px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-weight: bold;}
-        .btn-delete:hover { background-color: #ff3333; color: #fff; }
-        .badge { position: absolute; top: 15px; right: 15px; background-color: var(--accent-color); color: var(--bg-color); font-weight: 900; padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; text-transform: uppercase; z-index: 10; }
+        .btn-secondary:hover { border-color: var(--accent-color); background-color: var(--hover-bg); transform: translateY(-2px); }
+        .btn-danger { background-color: rgba(255,51,51,0.1); color: var(--danger); border: 1px solid var(--danger); }
+        .btn-danger:hover { background-color: var(--danger); color: #fff; }
+        .util-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .util-btn:hover { color: var(--accent-color); border-color: var(--accent-color); transform: scale(1.05); }
+
+        /* --- SECTIONS --- */
+        .section { display: none; width: 100%; max-width: 1200px; padding: 20px; margin-bottom: 50px; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .section.active { display: block; opacity: 1; transform: translateY(0); animation: slideUp 0.5s ease forwards; }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        
+        .content-panel { background: var(--card-bg); backdrop-filter: var(--glass); border: 1px solid var(--border-color); border-radius: 24px; padding: 35px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+        .content-panel::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--accent-color), transparent); opacity: 0.5; }
+        .content-panel h2 { margin-top: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        @media (max-width: 850px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        /* --- CARDS & 3D TILT --- */
+        .map-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; perspective: 1000px; }
+        .map-card { background: var(--card-bg); backdrop-filter: var(--glass); border: 1px solid var(--border-color); border-radius: 24px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.1s ease, box-shadow 0.1s ease; transform-style: preserve-3d; }
+        .map-card:hover { border-color: var(--accent-color); box-shadow: 0 30px 60px rgba(0,0,0,0.6); z-index: 10; }
+        .map-thumbnail { width: 100%; border-radius: 16px; margin-bottom: 20px; object-fit: cover; aspect-ratio: 16/9; transform: translateZ(30px); border: 1px solid #222;}
+        .map-card h2 { font-size: 1.6rem; text-align: center; margin-bottom: 10px; transform: translateZ(40px); }
+        
+        .tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; transform: translateZ(25px); }
+        .tag { background: #000; border: 1px solid var(--border-color); color: var(--text-dim); padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; }
+        .tag.new { border-color: var(--danger); color: var(--danger); animation: pulseTag 2s infinite; }
+        @keyframes pulseTag { 0% { box-shadow: 0 0 0 0 rgba(255,51,51,0.4); } 70% { box-shadow: 0 0 0 5px rgba(255,51,51,0); } 100% { box-shadow: 0 0 0 0 rgba(255,51,51,0); } }
+
+        .features-list { list-style: none; padding: 0; margin: 0 0 30px 0; flex-grow: 1; transform: translateZ(20px); }
+        .features-list li { margin-bottom: 10px; font-size: 0.9rem; color: var(--text-dim); display: flex; align-items: center; }
+        .features-list li::before { content: '⚡'; font-size: 0.8rem; margin-right: 12px; color: var(--accent-color); }
+        .badge { position: absolute; top: -10px; right: -10px; background: var(--accent-color); color: var(--bg-color); font-weight: 900; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; text-transform: uppercase; z-index: 10; box-shadow: var(--shadow); transform: translateZ(50px) rotate(5deg); }
 
         /* --- FORMS & INPUTS --- */
-        input, textarea, select { width: 100%; background-color: #000; border: 2px solid var(--border-color); border-radius: 20px; padding: 15px; color: var(--text-main); font-family: inherit; margin-bottom: 15px; transition: 0.2s; }
-        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent-color); }
-        label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; margin-left: 5px;}
-        .char-counter { font-size: 0.7rem; color: var(--text-dim); text-align: right; margin-top: -10px; margin-bottom: 15px; display: block; }
+        .input-group { position: relative; margin-bottom: 20px; }
+        input, textarea, select { width: 100%; background: rgba(0,0,0,0.5); border: 2px solid var(--border-color); border-radius: 16px; padding: 18px 20px; color: var(--text-main); font-family: inherit; font-size: 0.95rem; transition: 0.3s; font-weight: 600; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent-color); background: rgba(0,0,0,0.8); box-shadow: 0 0 15px rgba(255,255,255,0.05); }
+        label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 900; display: block; margin-bottom: 8px; margin-left: 5px; letter-spacing: 1px;}
+        .char-counter { position: absolute; right: 15px; bottom: 15px; font-size: 0.7rem; color: var(--text-dim); font-weight: bold; pointer-events: none;}
 
-        /* --- COMMUNITY LFG --- */
-        .lfg-card { border: 1px solid var(--border-color); padding: 15px; border-radius: 15px; background: rgba(0,0,0,0.5); margin-bottom: 10px; word-break: break-word; display: flex; flex-direction: column; gap: 8px;}
-        .lfg-card.own-post { border-color: #ffcc00; background: rgba(255, 204, 0, 0.05); } /* Highlight eigener Post */
-        .lfg-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 5px; }
-        .skeleton-loader { height: 60px; background: #222; border-radius: 15px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 0.2; } 100% { opacity: 0.6; } }
-
-        /* --- LOGIN MODAL --- */
-        #loginModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; }
-        .modal-content { background-color: #121212; border: 1px solid #333333; border-radius: 32px; padding: 50px; width: 100%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.9); }
-        .close-btn { position: absolute; top: 20px; right: 30px; font-size: 1.5rem; cursor: pointer; color: #888; }
+        /* --- LFG BOARD --- */
+        #lfg-board-server { max-height: 450px; overflow-y: auto; margin-bottom: 20px; padding-right: 10px; display: flex; flex-direction: column; gap: 15px; }
+        .lfg-card { border: 1px solid var(--border-color); padding: 18px; border-radius: 16px; background: rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 10px; transition: 0.2s; position: relative; overflow: hidden;}
+        .lfg-card:hover { border-color: #444; transform: translateX(5px); }
+        .lfg-card.own-post { border-left: 4px solid var(--accent-color); background: rgba(255,255,255,0.02); }
+        .lfg-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
+        .epic-copy { color: var(--accent-color); font-weight: 900; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+        .epic-copy:hover { text-shadow: 0 0 8px var(--accent-color); }
+        .time-badge { font-size: 0.65rem; color: #666; background: #111; padding: 4px 8px; border-radius: 8px; font-weight: bold; text-transform: uppercase;}
         
-        /* --- LOADER --- */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.3s;}
-        .spinner { width: 50px; height: 50px; border: 5px solid var(--border-color); border-top-color: var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        .skeleton { background: linear-gradient(90deg, #111 25%, #222 50%, #111 75%); background-size: 200% 100%; animation: skeletonLoading 1.5s infinite; border-radius: 12px; }
+        @keyframes skeletonLoading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* --- ADMIN PANEL (Hidden) --- */
-        #admin-panel { display: none; background: rgba(255, 0, 0, 0.1); border: 2px solid #ff3333; margin-top: 30px; padding: 20px; border-radius: 20px; }
+        /* --- ESPORTS BRACKET (MOCK) --- */
+        .bracket { display: flex; gap: 30px; overflow-x: auto; padding: 20px 0; }
+        .round { display: flex; flex-direction: column; gap: 30px; justify-content: center; }
+        .matchup { background: #111; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-width: 200px; position: relative; }
+        .team { display: flex; justify-content: space-between; padding: 8px 0; font-weight: bold; font-size: 0.9rem; }
+        .team.winner { color: var(--success); }
+        .team:first-child { border-bottom: 1px solid #222; }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        #toast-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9999; }
+        .toast { background: var(--card-bg); backdrop-filter: var(--glass); border-left: 4px solid var(--accent-color); color: #fff; padding: 16px 24px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; transform: translateX(120%); animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .toast.error { border-color: var(--danger); }
+        .toast.success { border-color: var(--success); }
+        @keyframes slideInRight { to { transform: translateX(0); } }
+        @keyframes fadeOutToast { to { opacity: 0; transform: translateX(100%); } }
+
+        /* --- MODALS & LOADERS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+        .modal-content { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 32px; padding: 40px; width: 90%; max-width: 450px; text-align: center; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.9); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay.show { display: flex; opacity: 1; }
+        .modal-overlay.show .modal-content { transform: scale(1); }
+        
+        #loader { position: fixed; inset: 0; background: var(--bg-color); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.5s; }
+        .loader-core { width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        
+        /* --- PROGRESS BAR --- */
+        .level-bar { width: 100%; height: 8px; background: #222; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .level-fill { height: 100%; background: var(--accent-color); width: 75%; box-shadow: 0 0 10px var(--accent-color); }
     </style>
 </head>
 <body>
 
+    <canvas id="particles"></canvas>
+    <div id="offline-banner">Keine Internetverbindung. Du bist offline.</div>
+    <div id="broadcast-banner"></div>
+    <div id="toast-container"></div>
+
     <div id="loader">
-        <div class="spinner"></div>
-        <h2 style="margin-top:20px; letter-spacing: 2px;">LÄDT PORTAL...</h2>
+        <div class="loader-core"></div>
+        <h2 style="margin-top:25px; letter-spacing: 3px; font-weight: 900;">BOOTING...</h2>
     </div>
 
     <nav>
         <div class="logo" onclick="switchTab('maps')">PHILPW</div>
         <div class="nav-links">
             <a onclick="switchTab('maps')" id="tab-maps" class="active">Maps</a>
-            <a onclick="switchTab('community')" id="tab-community">Community</a>
-            <a onclick="switchTab('feedback')" id="tab-feedback">Feedback</a>
-            <a onclick="switchTab('profile')" id="tab-profile">Profil <span id="nav-badge" style="display:none;">👑</span></a>
+            <a onclick="switchTab('community')" id="tab-community">LFG Board</a>
+            <a onclick="switchTab('esports')" id="tab-esports">Tournaments</a>
+            <a onclick="switchTab('feedback')" id="tab-feedback">Support</a>
+            <a onclick="switchTab('profile')" id="tab-profile">HQ <span id="nav-badge" style="display:none; filter: grayscale(1);">🟢</span></a>
         </div>
         <div class="nav-utils">
-            <button class="util-btn" onclick="toggleNeon()">🌙/⚡</button>
-            <button id="auth-btn" class="btn-login" onclick="toggleLogin()">Login</button>
+            <button class="util-btn" onclick="toggleNeon()" title="Neon Mode">⚡</button>
+            <button id="auth-btn" class="btn btn-primary" style="margin:0; padding: 10px 20px; width: auto;" onclick="openModal('loginModal')">LOGIN</button>
         </div>
     </nav>
 
     <div id="maps" class="section active">
         <div class="map-container">
-            <div class="map-card">
-                <div class="badge" style="background:#ff3333; color:white;">LIVE</div>
+            <div class="map-card" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <div class="badge" style="background: var(--success); color:#000;">LIVE</div>
                 <img src="https://cdn-0001.qstv.on.epicgames.com/QbgiVpDBrBnekIAQsN/image/landscape_comp.jpeg" class="map-thumbnail">
                 <h2>1V1 BUILD FIGHT</h2>
-                <span class="patch-link"><span class="status-dot"></span> Server Online | Version v1.4</span>
-                <div class="tags"><span class="tag">1V1</span><span class="tag">0 DELAY</span><span class="tag">COMPETITIVE</span></div>
+                <div class="tags"><span class="tag">1V1</span><span class="tag new">0 DELAY</span><span class="tag">COMPETITIVE</span></div>
                 <ul class="features-list">
-                    <li>Optimiert und minimalistisch</li>
-                    <li>Siphon & Auto-Reset</li>
-                    <li>Performance-Modus</li>
+                    <li>Minimalistisches "No Prop" Design</li>
+                    <li>Siphon & Instant Auto-Reset</li>
+                    <li>Performance-Modus Optimierung</li>
                 </ul>
                 <a href="https://www.fortnite.com/play/island/4653-2283-2989" target="_blank" class="btn btn-primary">Jetzt Spielen</a>
-                <button class="btn btn-secondary" onclick="copyCode('4653-2283-2989', this)">Code: 4653-2283-2989</button>
+                <button class="btn btn-secondary" onclick="copyToClipboard('4653-2283-2989')">Code: 4653-2283-2989</button>
             </div>
 
-            <div class="map-card" style="opacity: 0.8;">
-                <div class="badge">Q3 2026</div>
-                <img src="https://cdn-0001.qstv.on.epicgames.com/QbgiVpDBrBnekIAQsN/image/landscape_comp.jpeg" class="map-thumbnail" style="filter: grayscale(1);">
+            <div class="map-card" style="opacity: 0.85;" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <div class="badge" style="background: #444;">WIP</div>
+                <img src="https://cdn-0001.qstv.on.epicgames.com/QbgiVpDBrBnekIAQsN/image/landscape_comp.jpeg" class="map-thumbnail" style="filter: grayscale(1) contrast(1.2);">
                 <h2>2V2 BUILD FIGHT</h2>
-                <span class="patch-link" style="color:orange;"><span class="status-dot" style="background:orange; box-shadow:0 0 10px orange;"></span> In UEFN Entwicklung</span>
                 <div class="tags"><span class="tag">2V2</span><span class="tag">PGF</span></div>
                 <ul class="features-list">
-                    <li>3 Voting-Modi (Dynamic, Classic)</li>
-                    <li>Freebuild nach Eliminierung</li>
-                    <li>Zone On/Off Voting</li>
+                    <li>Advanced Voting System</li>
+                    <li>Freebuild Spectator Arena</li>
+                    <li>Moving Zone Controller</li>
                 </ul>
-                <button class="btn btn-secondary" style="cursor: not-allowed; border-color: #333; color: #555;">In Development</button>
+                <button class="btn btn-secondary" disabled style="border-color: #333; color: #666; cursor: not-allowed;">In Development</button>
             </div>
         </div>
     </div>
@@ -162,167 +202,242 @@
     <div id="community" class="section">
         <div class="grid-2">
             <div class="content-panel">
-                <h2>Suche Duo (LFG) 🤝</h2>
-                <p style="color: var(--text-dim); margin-bottom: 20px;">Globaler Live-Feed.</p>
+                <h2 style="display:flex; justify-content:space-between; width:100%;">LFG FEED <span style="font-size:0.7rem; background:#222; padding:5px 10px; border-radius:10px; font-weight:normal;">Live Sync 🟢</span></h2>
                 
-                <div id="lfg-board-server" style="max-height: 400px; overflow-y: auto; margin-bottom: 15px; padding-right: 10px;">
-                    <div class="skeleton-loader"></div>
-                    <div class="skeleton-loader"></div>
+                <div id="lfg-board-server">
+                    <div class="lfg-card skeleton"><div style="height:20px; width:40%; background:#333; border-radius:5px;"></div><div style="height:10px; width:80%; background:#333; border-radius:5px; margin-top:10px;"></div></div>
+                    <div class="lfg-card skeleton"><div style="height:20px; width:30%; background:#333; border-radius:5px;"></div><div style="height:10px; width:60%; background:#333; border-radius:5px; margin-top:10px;"></div></div>
                 </div>
                 
-                <div style="position: relative;">
-                    <input type="text" id="lfg-input" placeholder="Tippe hier und drücke Enter..." maxlength="100" onkeyup="checkEnter(event)">
-                    <span class="char-counter" id="char-count">0/100</span>
+                <div class="input-group" style="margin-bottom: 10px;">
+                    <input type="text" id="lfg-input" placeholder="Tippe hier dein Gesuch und drücke Enter..." maxlength="120" onkeyup="if(event.key==='Enter') postLFGToServer()">
+                    <span class="char-counter" id="char-count">0/120</span>
                 </div>
                 <button id="lfg-submit-btn" class="btn btn-secondary" onclick="postLFGToServer()">Posten</button>
-                <div id="lfg-error" style="color:#ff3333; font-size:0.8rem; margin-top:5px; display:none;"></div>
             </div>
             
-            <div class="content-panel">
-                <h2>Offizieller Discord</h2>
-                <p>Verbinde dich mit anderen Spielern, um Customs zu spielen oder Bugs im Discord-Ticket zu melden.</p>
-                <a href="https://communities.epicgames.com/community/HN64/phil3663" target="_blank" class="btn btn-primary">Server beitreten</a>
+            <div style="display:flex; flex-direction:column; gap:30px;">
+                <div class="content-panel">
+                    <h2>COMMUNITY DISCORD</h2>
+                    <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px;">Tritt dem offiziellen Server bei für Wagers, Customs und direkte Developer-Updates.</p>
+                    <a href="https://communities.epicgames.com/community/HN64/phil3663" target="_blank" class="btn btn-primary">Server beitreten</a>
+                </div>
+                <div class="content-panel" style="padding:0; overflow:hidden; border:none;">
+                    <img src="https://cdn-0001.qstv.on.epicgames.com/QbgiVpDBrBnekIAQsN/image/landscape_comp.jpeg" style="width:100%; height:200px; object-fit:cover; opacity:0.6;">
+                    <div style="position:absolute; bottom:20px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:flex-end;">
+                        <div><span class="tag" style="background:var(--accent-color); color:var(--bg-color);">VIDEO</span><h3 style="margin:5px 0 0 0; text-shadow:0 2px 5px #000;">1v1 Mechanics Guide</h3></div>
+                        <button class="util-btn" style="background:#fff; color:#000; border-radius:50%; width:40px; height:40px;">▶</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="esports" class="section">
+        <div class="content-panel" style="overflow-x: auto;">
+            <h2>LIVE TOURNAMENT BRACKET</h2>
+            <p style="color:var(--text-dim); font-size:0.85rem;">Philpw Community Cup #1 (Mockup)</p>
+            <div class="bracket">
+                <div class="round">
+                    <div class="matchup"><div class="team winner">Vico & Flix <span>2</span></div><div class="team">Tayson & Merstach <span>0</span></div></div>
+                    <div class="matchup"><div class="team winner">Queasy & Veno <span>2</span></div><div class="team">Malibuca & Th0mas <span>1</span></div></div>
+                </div>
+                <div class="round">
+                    <div class="matchup"><div class="team winner">Vico & Flix <span>3</span></div><div class="team">Queasy & Veno <span>1</span></div><span class="badge" style="right:-20px; top:30px;">FINAL</span></div>
+                </div>
+                <div class="round">
+                    <div class="matchup" style="border-color:var(--accent-color); box-shadow:0 0 20px rgba(255,255,255,0.1);"><div class="team winner" style="font-size:1.2rem; text-align:center; display:block; padding:10px;">👑 Vico & Flix</div></div>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="feedback" class="section">
-        <div class="content-panel">
-            <h2>Support & Feedback 🐛</h2>
-            <div class="grid-2">
-                <div>
-                    <div data-fs-success style="display: none; background: rgba(0, 255, 0, 0.1); border: 1px solid #00ff00; padding: 20px; border-radius: 20px; margin-bottom: 20px; color: #00ff00; text-align: center; font-weight: bold;">
-                        ✅ Formular erfolgreich übermittelt!
-                    </div>
-                    <form id="real-feedback-form">
-                        <input type="text" id="feedback-epic" name="Epic-Name" placeholder="Dein Epic-Name" data-fs-field maxlength="16">
-                        <select name="Kategorie" required data-fs-field>
-                            <option value="Feature">Idee / Feature vorschlagen</option>
-                            <option value="Bug">Bug / Glitch melden</option>
-                            <option value="Lob">Lob / Sonstiges</option>
-                        </select>
-                        <textarea name="Nachricht" placeholder="Beschreibe dein Anliegen..." required minlength="10" data-fs-field></textarea>
-                        <button type="submit" class="btn btn-primary" data-fs-submit-btn>Nachricht Senden</button>
-                    </form>
+        <div class="content-panel" style="max-width: 800px; margin: 0 auto;">
+            <h2>DEVELOPER SUPPORT 🛠️</h2>
+            <p style="color:var(--text-dim); margin-bottom: 25px; font-size: 0.9rem;">Dein Input formt die Maps. Melde Bugs oder reiche Ideen direkt ins Entwickler-Postfach ein.</p>
+            <form id="real-feedback-form" onsubmit="handleFeedbackSubmit(event)">
+                <div class="grid-2" style="gap:15px;">
+                    <div class="input-group"><label>Epic-Name</label><input type="text" id="feedback-epic" name="Epic-Name" data-fs-field maxlength="16"></div>
+                    <div class="input-group"><label>Kategorie</label><select name="Kategorie" required data-fs-field><option value="Feature">Feature Request</option><option value="Bug">Bug Report</option><option value="Admin">Business Inquiry</option></select></div>
                 </div>
-            </div>
+                <div class="input-group"><label>Nachricht (Min. 15 Zeichen)</label><textarea name="Nachricht" placeholder="Details..." required minlength="15" style="height:120px;" data-fs-field></textarea></div>
+                <button type="submit" class="btn btn-primary" id="feedback-submit-btn" data-fs-submit-btn>Ticket absenden</button>
+            </form>
         </div>
     </div>
 
     <div id="profile" class="section">
-        <div class="content-panel" style="text-align:center;">
+        <div class="content-panel" style="text-align:center; max-width: 800px; margin: 0 auto;">
             
             <div id="profile-logged-out">
-                <h2>Nicht angemeldet</h2>
-                <p style="color:var(--text-dim);">Bitte logge dich ein, um dein globales Profil zu speichern.</p>
-                <button class="btn btn-primary" onclick="toggleLogin()" style="max-width: 250px; margin: 20px auto;">Mit Google Anmelden</button>
+                <h2 style="justify-content:center;">ACCESS DENIED</h2>
+                <p style="color:var(--text-dim); margin-bottom: 30px;">Authentifizierung erforderlich, um HQ-Daten zu laden.</p>
+                <button class="btn btn-primary" onclick="openModal('loginModal')" style="max-width: 250px; margin: 0 auto;">AUTHENTICATE</button>
             </div>
 
             <div id="profile-logged-in" style="display: none;">
-                <div id="role-badge" class="badge" style="position:relative; display:inline-block; top:0; right:0; margin-bottom:20px; background: #333;">MEMBER</div>
-                <br>
-                <img id="user-pfp" src="" style="width: 100px; border-radius: 50%; border: 3px solid var(--accent-color); margin-bottom: 15px; box-shadow: 0 0 20px rgba(255,255,255,0.2);">
-                <h2 id="user-display-name">Loading...</h2>
-                <p style="color:var(--text-dim); font-size: 0.8rem;">Letzter Login: <span id="last-login-time">Gerade eben</span></p>
+                <div id="role-badge" class="badge" style="position:absolute; top:20px; right:20px; background: #333;">MEMBER</div>
                 
-                <div class="grid-3" style="text-align:left; margin-top:30px;">
-                    <div class="lfg-card"><strong>Epic ID:</strong> <span id="display-epic" style="color:var(--accent-color); font-weight:bold;">-</span></div>
-                    <div class="lfg-card"><strong>Input:</strong> <span id="display-input">-</span></div>
-                    <div class="lfg-card"><strong>Sens:</strong> <span id="display-sens">-</span></div>
+                <div style="position:relative; display:inline-block;">
+                    <img id="user-pfp" src="" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent-color); margin-bottom: 10px; object-fit: cover;">
+                    <div style="position:absolute; bottom:15px; right:0; background:var(--success); width:15px; height:15px; border-radius:50%; border:3px solid var(--card-bg);"></div>
+                </div>
+                
+                <h2 id="user-display-name" style="justify-content:center; margin-bottom:5px;">Loading...</h2>
+                <p style="color:var(--text-dim); font-size: 0.75rem; font-family:monospace;" id="user-uid">ID: ---------</p>
+                
+                <div style="text-align:left; margin: 30px 0;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:bold;"><span>Season Level 42</span><span>EXP: 8,450 / 10,000</span></div>
+                    <div class="level-bar"><div class="level-fill"></div></div>
                 </div>
 
-                <button class="btn btn-secondary" onclick="document.getElementById('edit-profile-form').style.display='block'" style="max-width: 200px; margin: 20px auto 0;">Profil bearbeiten</button>
-
-                <div id="edit-profile-form" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px; text-align:left;">
-                    <label>Epic Games Name (Max 16 Zeichen)</label>
-                    <input type="text" id="edit-epic" placeholder="Dein In-Game Name" maxlength="16">
-                    <label>Eingabegerät</label>
-                    <select id="edit-input"><option value="KBM 🖱️">Maus & Tastatur</option><option value="Controller 🎮">Controller</option></select>
-                    <label>In-Game Sensibilität</label>
-                    <input type="text" id="edit-sens" placeholder="z.B. 800 DPI, 6.5%" maxlength="20">
-                    <button class="btn btn-primary" onclick="saveProfileToDB()" id="save-profile-btn">Änderungen speichern</button>
-                    <button class="btn btn-secondary" onclick="document.getElementById('edit-profile-form').style.display='none'" style="border-color:#555; color:#555;">Abbrechen</button>
+                <div class="grid-3" style="text-align:left; margin-bottom:30px;">
+                    <div class="lfg-card" style="border-top:3px solid var(--accent-color);">
+                        <span style="font-size:0.7rem; color:var(--text-dim); font-weight:bold;">EPIC GAMES</span>
+                        <strong id="display-epic" style="font-size:1.1rem; letter-spacing:1px; margin-top:5px;">-</strong>
+                    </div>
+                    <div class="lfg-card">
+                        <span style="font-size:0.7rem; color:var(--text-dim); font-weight:bold;">INPUT</span>
+                        <strong id="display-input" style="font-size:1.1rem; margin-top:5px;">-</strong>
+                    </div>
+                    <div class="lfg-card">
+                        <span style="font-size:0.7rem; color:var(--text-dim); font-weight:bold;">SENSITIVITY</span>
+                        <strong id="display-sens" style="font-size:1.1rem; margin-top:5px;">-</strong>
+                    </div>
                 </div>
 
-                <div id="admin-panel">
-                    <h3 style="color:#ff3333; margin-top:0;">🛑 OWNER DASHBOARD</h3>
-                    <p style="font-size:0.8rem;">Du bist als Admin eingeloggt. Du kannst LFG-Posts global löschen.</p>
+                <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('edit-profile-form').style.display='block'; window.scrollBy(0,300);" style="width:auto; padding: 12px 25px;">Daten Editieren</button>
+                    <button class="btn btn-danger" onclick="logoutUser()" style="width:auto; padding: 12px 25px;">System Logout</button>
+                </div>
+
+                <div id="edit-profile-form" style="display:none; margin-top:40px; border-top:1px solid #333; padding-top:30px; text-align:left;">
+                    <h3 style="margin-bottom:20px;">Database Update</h3>
+                    <div class="grid-2">
+                        <div class="input-group"><label>Epic ID</label><input type="text" id="edit-epic" placeholder="Dein Epic Name" maxlength="16"></div>
+                        <div class="input-group"><label>Input Device</label><select id="edit-input"><option value="KBM 🖱️">Mouse & Keyboard</option><option value="Controller 🎮">Controller</option></select></div>
+                    </div>
+                    <div class="input-group"><label>Sensitivity Info</label><input type="text" id="edit-sens" placeholder="e.g., 800 DPI, 6.0%" maxlength="20"></div>
+                    <div class="input-group"><label>Twitter/X (Optional)</label><input type="text" id="edit-social" placeholder="@username" maxlength="20"></div>
+                    
+                    <div style="display:flex; gap:10px; margin-top:20px;">
+                        <button class="btn btn-primary" onclick="saveProfileToDB()" id="save-profile-btn">Commit Changes</button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('edit-profile-form').style.display='none'">Cancel</button>
+                    </div>
+                </div>
+
+                <div id="admin-panel" style="display:none; margin-top:40px; background:rgba(255,51,51,0.05); border:1px solid var(--danger); padding:30px; border-radius:24px; text-align:left;">
+                    <h3 style="color:var(--danger); margin-top:0; display:flex; align-items:center; gap:10px;">⚠️ SYSADMIN CONSOLE</h3>
+                    <div class="input-group"><label>Global Broadcast Message</label><input type="text" id="admin-broadcast" placeholder="Warnung: Dies sehen alle User sofort!"></div>
+                    <button class="btn btn-danger" onclick="sendBroadcast()" style="width:auto; padding:10px 20px;">Send Broadcast</button>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <div id="loginModal">
+    <div class="modal-overlay" id="loginModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="toggleLogin()">×</span>
-            <h2 style="margin-top:0; font-size: 2rem;">SERVER LOGIN</h2>
-            <button class="btn btn-google" onclick="loginWithGoogle()">
-                <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill-rule="evenodd" fill-opacity="1"></path></svg>
-                Mit Google anmelden
+            <span class="close-btn" onclick="closeModal('loginModal')">×</span>
+            <h2 style="margin-top:0; font-size: 2rem; letter-spacing:-1px;">AUTHENTICATION</h2>
+            <p style="color: var(--text-dim); margin-bottom: 30px; font-size:0.9rem;">SSO Login via Google API.</p>
+            <button class="btn btn-google" onclick="loginWithGoogle()" style="padding:15px; font-size:1rem; border-radius:15px;">
+                <svg width="20" height="20" viewBox="0 0 18 18"><path fill="#fff" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill-rule="evenodd" fill-opacity="1"></path></svg>
+                Google Connect
             </button>
-            <div id="auth-error" style="color: #ff3333; margin-top: 15px; font-size: 0.8rem; font-weight: bold;"></div>
         </div>
     </div>
 
     <script>
-        const ADMIN_EMAIL = "schleimyverteilung@gmail.com";
+        // --- TOAST SYSTEM ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = type === 'success' ? `✅ ${message}` : `⚠️ ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.animation = 'fadeOutToast 0.4s forwards'; setTimeout(() => toast.remove(), 400); }, 3500);
+        }
 
-        // Tab Switching mit LocalStorage Persistenz
+        // --- NAVIGATION & TABS ---
         function switchTab(tabId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             document.getElementById('tab-' + tabId).classList.add('active');
-            localStorage.setItem('activeTab', tabId); // Speichere letzten Tab
-            window.scrollTo(0,0);
+            localStorage.setItem('philpw_tab', tabId);
+            window.scrollTo({top:0, behavior:'smooth'});
         }
 
-        // Neon Mode Toggle mit Persistenz
         function toggleNeon() { 
             document.body.classList.toggle('neon-mode'); 
-            const isNeon = document.body.classList.contains('neon-mode');
-            localStorage.setItem('neonMode', isNeon);
+            localStorage.setItem('philpw_neon', document.body.classList.contains('neon-mode'));
+            showToast('Theme updated.', 'success');
         }
 
-        // Beim Laden der Seite: Gespeicherte Einstellungen abrufen
-        window.onload = () => {
-            console.log("%cPHILPW OFFICIAL PORTAL", "color: #00ffff; font-size: 20px; font-weight: bold;");
-            
-            // Lade Neon Mode
-            if(localStorage.getItem('neonMode') === 'true') { document.body.classList.add('neon-mode'); }
-            
-            // Lade letzten Tab (Default: maps)
-            const savedTab = localStorage.getItem('activeTab') || 'maps';
-            switchTab(savedTab);
+        // --- MODALS ---
+        function openModal(id) { document.getElementById(id).classList.add('show'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-            // Loader ausblenden
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 300);
-            }, 800);
+        // --- UTILS ---
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast('In die Zwischenablage kopiert!');
+        }
+
+        const lfgInput = document.getElementById('lfg-input');
+        lfgInput.addEventListener('input', function() { document.getElementById('char-count').innerText = `${this.value.length}/120`; });
+
+        // --- 3D TILT EFFECT ---
+        function tiltCard(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        }
+        function resetTilt(card) { card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`; }
+
+        // --- BACKGROUND PARTICLES ---
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particlesArray = [];
+        class Particle {
+            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2; this.speedY = Math.random() * -0.5 - 0.1; }
+            update() { this.y += this.speedY; if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; } }
+            draw() { ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        function initParticles() { for (let i = 0; i < 50; i++) particlesArray.push(new Particle()); }
+        function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particlesArray.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
+        initParticles(); animateParticles();
+
+        // --- OFFLINE & TITLE LOGIC ---
+        window.addEventListener('offline', () => { document.getElementById('offline-banner').style.display = 'block'; showToast('Verbindung verloren!', 'error'); });
+        window.addEventListener('online', () => { document.getElementById('offline-banner').style.display = 'none'; showToast('Wieder online!'); });
+        
+        let originalTitle = document.title;
+        window.addEventListener('blur', () => { document.title = "⚠️ Komm zurück ins Portal!"; });
+        window.addEventListener('focus', () => { document.title = originalTitle; });
+
+        // --- INITIAL BOOT ---
+        window.onload = () => {
+            if(localStorage.getItem('philpw_neon') === 'true') document.body.classList.add('neon-mode');
+            const savedTab = localStorage.getItem('philpw_tab') || 'maps';
+            switchTab(savedTab);
+            setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => document.getElementById('loader').style.display = 'none', 500); }, 1000);
         };
 
-        // UI Utils
-        function toggleLogin() {
-            const modal = document.getElementById('loginModal');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-        function copyCode(code, btn) {
-            navigator.clipboard.writeText(code).then(() => {
-                const oldText = btn.innerText;
-                btn.innerText = "Kopiert! ✓"; btn.style.backgroundColor = "var(--accent-color)"; btn.style.color = "var(--bg-color)";
-                setTimeout(() => { btn.innerText = oldText; btn.style.backgroundColor = "transparent"; btn.style.color = "var(--accent-color)"; }, 2000);
-            });
-        }
-
-        // LFG Input Charakter Zähler & Enter-Taste
-        const lfgInput = document.getElementById('lfg-input');
-        lfgInput.addEventListener('input', function() {
-            document.getElementById('char-count').innerText = `${this.value.length}/100`;
-        });
-        function checkEnter(event) {
-            if (event.key === "Enter") { postLFGToServer(); }
+        // --- CONFETTI FEEDBACK MOCK ---
+        function handleFeedbackSubmit(e) {
+            // Die echte Formspree-Logik übernimmt das Backend-Senden, wir machen nur UI
+            const btn = document.getElementById('feedback-submit-btn');
+            btn.innerText = 'Sende...'; btn.disabled = true;
+            setTimeout(() => { showToast('Ticket an SysAdmin gesendet!', 'success'); btn.innerText = 'Ticket absenden'; btn.disabled = false; }, 1000);
         }
     </script>
 
@@ -339,7 +454,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ========================================================
-        // DEINE ECHTEN KEYS
+        // 🚨 WICHTIG: TRAGE HIER DEINE KEYS EIN!
         // ========================================================
         const firebaseConfig = {
             apiKey: "AIzaSyDkDP9Z7Pv7MLpS0olVq8bkwvGrle5NKsk",
@@ -356,80 +471,68 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // Admin Konstante (aus dem vorherigen Script-Tag)
         const ADMIN_EMAIL = "schleimyverteilung@gmail.com";
         let isAdmin = false;
-        let lastPostTime = 0; // Für Spam-Schutz
+        let lastPostTime = 0;
 
         // --- AUTH LOGIK ---
         window.loginWithGoogle = async () => {
-            document.getElementById('auth-error').innerText = "Verbinde...";
-            try { await signInWithPopup(auth, provider); toggleLogin(); } 
-            catch (error) { document.getElementById('auth-error').innerText = "Fehler: " + error.message; }
+            try { await signInWithPopup(auth, provider); closeModal('loginModal'); showToast('Login erfolgreich.'); } 
+            catch (error) { showToast(error.message, 'error'); }
         };
 
         window.logoutUser = async () => {
-            if(confirm("Willst du dich wirklich ausloggen?")) {
-                await signOut(auth);
-                switchTab('maps');
-            }
+            await signOut(auth);
+            showToast('System Logout.');
+            switchTab('maps');
         };
 
-        // --- AUTH STATE & PROFIL LADEN ---
+        // --- STATE LISTENER ---
         onAuthStateChanged(auth, async (user) => {
             const authBtn = document.getElementById('auth-btn');
             const navBadge = document.getElementById('nav-badge');
             
             if (user) {
-                // Admin Check
                 isAdmin = (user.email === ADMIN_EMAIL);
-                
-                authBtn.innerText = "Logout";
-                authBtn.onclick = logoutUser;
+                authBtn.innerText = "LOGOUT"; authBtn.onclick = logoutUser;
                 document.getElementById('profile-logged-out').style.display = "none";
                 document.getElementById('profile-logged-in').style.display = "block";
-                navBadge.style.display = "inline"; // Zeige Krone im Menü
+                navBadge.style.display = "inline";
                 
-                // Basis-Daten setzen
                 document.getElementById('user-pfp').src = user.photoURL;
                 document.getElementById('user-display-name').innerText = user.displayName;
+                document.getElementById('user-uid').innerText = `ID: ${user.uid.substring(0,12)}...`;
                 
-                // Admin UI anpassen
                 const roleBadge = document.getElementById('role-badge');
                 if(isAdmin) {
-                    roleBadge.innerText = "OWNER";
-                    roleBadge.style.background = "#ff3333";
+                    roleBadge.innerText = "SYS ADMIN"; roleBadge.style.background = "var(--danger)";
                     document.getElementById('admin-panel').style.display = "block";
                 } else {
-                    roleBadge.innerText = "MEMBER";
-                    roleBadge.style.background = "#333";
+                    roleBadge.innerText = "VERIFIED MEMBER"; roleBadge.style.background = "#333";
                     document.getElementById('admin-panel').style.display = "none";
                 }
 
-                // Profil-Daten aus DB laden
+                // Lade Profil-Daten
                 const docRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(docRef);
-                
                 let savedEpic = "";
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     savedEpic = data.epicName || "";
-                    document.getElementById('display-epic').innerText = savedEpic || "Nicht gesetzt";
-                    document.getElementById('display-input').innerText = data.inputMethod || "Nicht gesetzt";
-                    document.getElementById('display-sens').innerText = data.sensitivity || "Nicht gesetzt";
+                    document.getElementById('display-epic').innerText = savedEpic || "-";
+                    document.getElementById('display-input').innerText = data.inputMethod || "-";
+                    document.getElementById('display-sens').innerText = data.sensitivity || "-";
                     
                     document.getElementById('edit-epic').value = savedEpic;
                     document.getElementById('edit-input').value = data.inputMethod || "KBM 🖱️";
                     document.getElementById('edit-sens').value = data.sensitivity || "";
+                    if(data.social) document.getElementById('edit-social').value = data.social;
                 }
-
-                // Autofill Feedback-Formular
                 if(savedEpic) { document.getElementById('feedback-epic').value = savedEpic; }
 
             } else {
                 isAdmin = false;
-                authBtn.innerText = "Login";
-                authBtn.onclick = toggleLogin;
+                authBtn.innerText = "LOGIN"; authBtn.onclick = () => openModal('loginModal');
                 navBadge.style.display = "none";
                 document.getElementById('profile-logged-out').style.display = "block";
                 document.getElementById('profile-logged-in').style.display = "none";
@@ -437,57 +540,49 @@
             }
         });
 
-        // --- PROFIL SPEICHERN ---
+        // --- PROFIL UPDATE ---
         window.saveProfileToDB = async () => {
             const user = auth.currentUser;
             if(!user) return;
-            
             const btn = document.getElementById('save-profile-btn');
-            btn.innerText = "Speichere...";
-            
+            btn.innerText = "Uploading..."; btn.disabled = true;
+
             const newEpic = document.getElementById('edit-epic').value.trim();
             const newInput = document.getElementById('edit-input').value;
             const newSens = document.getElementById('edit-sens').value.trim();
+            const newSocial = document.getElementById('edit-social').value.trim();
 
             try {
                 await setDoc(doc(db, "users", user.uid), {
-                    epicName: newEpic, inputMethod: newInput, sensitivity: newSens, updatedAt: serverTimestamp()
+                    epicName: newEpic, inputMethod: newInput, sensitivity: newSens, social: newSocial, updatedAt: serverTimestamp()
                 }, { merge: true });
                 
-                document.getElementById('display-epic').innerText = newEpic || "Nicht gesetzt";
-                document.getElementById('display-input').innerText = newInput || "Nicht gesetzt";
-                document.getElementById('display-sens').innerText = newSens || "Nicht gesetzt";
-                
-                document.getElementById('edit-profile-form').style.display = "none";
-                btn.innerText = "Änderungen speichern";
-                
-                // Feedback Formular live updaten
+                document.getElementById('display-epic').innerText = newEpic || "-";
+                document.getElementById('display-input').innerText = newInput || "-";
+                document.getElementById('display-sens').innerText = newSens || "-";
                 document.getElementById('feedback-epic').value = newEpic;
                 
+                document.getElementById('edit-profile-form').style.display = "none";
+                showToast('Datenbank aktualisiert.', 'success');
             } catch (error) {
-                alert("Fehler beim Speichern: " + error.message);
-                btn.innerText = "Änderungen speichern";
+                showToast(error.message, 'error');
             }
+            btn.innerText = "Commit Changes"; btn.disabled = false;
         };
 
-        // --- LFG BOARD LIVE FEED ---
+        // --- LFG BOARD LISTENER ---
         const lfgRef = collection(db, 'lfg_posts');
-        const q = query(lfgRef, orderBy('createdAt', 'desc'));
+        const qLfg = query(lfgRef, orderBy('createdAt', 'desc'));
 
-        onSnapshot(q, (snapshot) => {
+        onSnapshot(qLfg, (snapshot) => {
             const board = document.getElementById('lfg-board-server');
             board.innerHTML = ''; 
-            
-            if (snapshot.empty) {
-                board.innerHTML = '<p style="color: var(--text-dim); text-align:center;">Sei der Erste, der nach einem Duo sucht!</p>';
-            }
+            if (snapshot.empty) { board.innerHTML = '<p style="color: var(--text-dim); text-align:center; padding:20px;">Feed ist leer.</p>'; return; }
 
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const postId = docSnap.id;
-                
-                // Zeit formatieren
-                let timeString = "Gerade eben";
+                let timeString = "Just now";
                 if(data.createdAt) {
                     const date = data.createdAt.toDate();
                     timeString = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -496,99 +591,85 @@
                 const currentUser = auth.currentUser;
                 const isOwnPost = (currentUser && data.uid === currentUser.uid);
                 
-                // Löschen Button Logik (Autor oder Admin)
                 let deleteHtml = "";
                 if(isOwnPost || isAdmin) {
-                    const btnLabel = isAdmin && !isOwnPost ? "🚨 Admin Delete" : "X Löschen";
-                    deleteHtml = `<button class="btn-delete" onclick="deleteLFG('${postId}')">${btnLabel}</button>`;
+                    const btnClass = isAdmin && !isOwnPost ? "btn-delete" : "btn-delete";
+                    const btnText = isAdmin && !isOwnPost ? "Admin Del" : "Delete";
+                    deleteHtml = `<button class="${btnClass}" onclick="deleteLFG('${postId}')">${btnText}</button>`;
                 }
 
-                // Card Styling (Eigener Post wird hervorgehoben)
                 const cardClass = isOwnPost ? "lfg-card own-post" : "lfg-card";
-                
-                // Text Sanitization (HTML Tags blockieren)
                 const safeText = data.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
                 board.innerHTML += `
                     <div class="${cardClass}">
                         <div class="lfg-header">
-                            <div>
-                                <strong style="color: var(--accent-color); font-size: 1rem; cursor:pointer;" title="In die Zwischenablage kopieren" onclick="copyEpic('@${data.author}')">@${data.author}</strong>
-                                <span style="font-size: 0.7rem; color: #555; margin-left: 5px;">${timeString}</span>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <span class="epic-copy" onclick="copyToClipboard('${data.author}')" title="Copy Epic ID">@${data.author}</span>
+                                <span class="time-badge">${timeString}</span>
                             </div>
                             ${deleteHtml}
                         </div>
-                        <div style="padding-top: 8px; font-size: 0.95rem; line-height: 1.4;">${safeText}</div>
+                        <div style="padding-top: 5px; font-size: 0.95rem; line-height: 1.5; color: #ddd;">${safeText}</div>
                     </div>
                 `;
             });
+        }, (error) => {
+            document.getElementById('lfg-board-server').innerHTML = '<p style="color:var(--danger); padding:20px;">ERR: Permission Denied. Check Firestore Rules.</p>';
         });
 
-        // --- LFG POSTEN (Mit Spam-Schutz) ---
+        // --- LFG POSTEN ---
         window.postLFGToServer = async () => {
             const input = document.getElementById('lfg-input');
-            const errorDiv = document.getElementById('lfg-error');
             const text = input.value.trim();
             const user = auth.currentUser;
 
-            errorDiv.style.display = "none";
-
-            if (!user) { errorDiv.innerText = "Bitte logge dich oben ein."; errorDiv.style.display = "block"; return; }
+            if (!user) { showToast("Authentication required.", "error"); return; }
             if (!text) return;
             
-            // 30 Sekunden Spam-Schutz (Admins ignoriert)
             const now = Date.now();
-            if(!isAdmin && now - lastPostTime < 30000) {
-                errorDiv.innerText = "Spam-Schutz: Bitte warte 30 Sekunden."; errorDiv.style.display = "block"; return;
-            }
+            if(!isAdmin && now - lastPostTime < 15000) { showToast("Spam protection active. Wait 15s.", "error"); return; }
 
-            // Lade Button
             const submitBtn = document.getElementById('lfg-submit-btn');
-            submitBtn.innerText = "Wird gesendet...";
-            submitBtn.disabled = true;
+            submitBtn.innerText = "..."; submitBtn.disabled = true;
 
             try {
-                // Versuche, den In-Game Namen aus dem Profil zu ziehen, sonst Google Name
                 const docRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(docRef);
                 let authorName = user.displayName;
-                if(docSnap.exists() && docSnap.data().epicName) {
-                    authorName = docSnap.data().epicName;
-                }
+                if(docSnap.exists() && docSnap.data().epicName) authorName = docSnap.data().epicName;
 
-                await addDoc(lfgRef, {
-                    text: text,
-                    author: authorName,
-                    uid: user.uid,
-                    createdAt: serverTimestamp()
-                });
-                
-                input.value = ''; 
-                document.getElementById('char-count').innerText = "0/100";
-                lastPostTime = Date.now();
-            } catch (e) {
-                errorDiv.innerText = "Datenbank-Fehler. (Rules aktualisiert?)"; errorDiv.style.display = "block";
-            }
+                await addDoc(lfgRef, { text: text, author: authorName, uid: user.uid, createdAt: serverTimestamp() });
+                input.value = ''; document.getElementById('char-count').innerText = "0/120"; lastPostTime = Date.now();
+            } catch (e) { showToast(e.message, "error"); }
             
-            submitBtn.innerText = "Posten";
-            submitBtn.disabled = false;
+            submitBtn.innerText = "Posten"; submitBtn.disabled = false;
         };
 
-        // --- LFG LÖSCHEN ---
         window.deleteLFG = async (postId) => {
-            if(confirm("Post unwiderruflich löschen?")) {
-                try { await deleteDoc(doc(db, "lfg_posts", postId)); } 
-                catch (e) { alert("Zugriff verweigert."); }
-            }
+            try { await deleteDoc(doc(db, "lfg_posts", postId)); showToast("Entity deleted.", "success"); } 
+            catch (e) { showToast("Permission denied.", "error"); }
         };
 
-        // Utility: Klick auf Name im LFG
-        window.copyEpic = (name) => {
-            const cleanName = name.replace('@', '');
-            navigator.clipboard.writeText(cleanName);
-            alert(cleanName + " in die Zwischenablage kopiert!");
+        // --- ADMIN BROADCAST ---
+        window.sendBroadcast = async () => {
+            if(!isAdmin) return;
+            const msg = document.getElementById('admin-broadcast').value.trim();
+            if(!msg) return;
+            try {
+                await setDoc(doc(db, "settings", "global"), { broadcastMsg: msg, timestamp: serverTimestamp() });
+                showToast("Broadcast deployed.", "success"); document.getElementById('admin-broadcast').value = "";
+            } catch(e) { showToast(e.message, "error"); }
         };
+
+        // --- BROADCAST LISTENER ---
+        onSnapshot(doc(db, "settings", "global"), (docSnap) => {
+            const banner = document.getElementById('broadcast-banner');
+            if(docSnap.exists() && docSnap.data().broadcastMsg) {
+                banner.innerText = "📢 " + docSnap.data().broadcastMsg;
+                banner.style.display = "block";
+            } else { banner.style.display = "none"; }
+        });
     </script>
-
 </body>
 </html>
