@@ -14,18 +14,24 @@
             --text-main: #ffffff; --text-dim: #888888; --hover-bg: rgba(255, 255, 255, 0.05);
             --shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
-        .neon-mode {
+        body.neon-mode {
             --bg-color: #020005; --bg-gradient: radial-gradient(circle at top, #1a0033 0%, #020005 100%);
             --card-bg: #0a001a; --border-color: #ff00ff; --accent-color: #00ffff;
             --text-main: #ffffff; --text-dim: #ffb3ff; --hover-bg: rgba(0, 255, 255, 0.1); --shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            cursor: crosshair;
         }
 
-        /* --- GLOBAL --- */
+        /* --- GLOBAL & CUSTOM SCROLLBAR --- */
         * { cursor: crosshair !important; box-sizing: border-box; }
-        body { margin: 0; padding: 0; background-color: var(--bg-color); background-image: var(--bg-gradient); color: var(--text-main); font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: all 0.3s ease; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+
+        body { margin: 0; padding: 0; background-color: var(--bg-color); background-image: var(--bg-gradient); color: var(--text-main); font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; transition: all 0.3s ease; scroll-behavior: smooth; }
         
         /* --- NAVIGATION --- */
-        nav { width: 100%; max-width: 1200px; margin-top: 20px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
+        nav { width: 100%; max-width: 1200px; margin-top: 20px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; position: sticky; top: 0; background: var(--bg-color); z-index: 50; padding-top: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
         .logo { font-size: 2.5rem; font-weight: 900; color: var(--accent-color); text-transform: uppercase; letter-spacing: -1px; margin: 0; cursor: pointer; }
         .nav-links { display: flex; gap: 25px; flex-wrap: wrap; }
         .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; cursor:pointer; }
@@ -61,14 +67,15 @@
         .features-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; background-color: var(--accent-color); border-radius: 50%; margin-right: 15px; }
 
         /* --- BUTTONS --- */
-        .btn { width: 100%; border: none; padding: 16px 0; border-radius: 50px; font-family: inherit; font-size: 1rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; display: block; margin-bottom: 10px; }
+        .btn { width: 100%; border: none; padding: 16px 0; border-radius: 50px; font-family: inherit; font-size: 1rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; display: block; margin-bottom: 10px; position: relative; overflow: hidden; }
         .btn-primary { background-color: var(--accent-color); color: var(--bg-color); }
         .btn-primary:hover { transform: scale(1.02); opacity: 0.8; }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--border-color); }
         .btn-secondary:hover { border-color: var(--accent-color); background-color: var(--hover-bg); }
         .btn-google { background-color: #4285F4; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-google:hover { background-color: #357ae8; }
-        .btn-delete { background-color: transparent; color: #ff3333; border: 1px solid #ff3333; padding: 5px 10px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; transition: 0.2s; }
+        .btn-delete { background-color: transparent; color: #ff3333; border: 1px solid #ff3333; padding: 5px 10px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-weight: bold;}
         .btn-delete:hover { background-color: #ff3333; color: #fff; }
         .badge { position: absolute; top: 15px; right: 15px; background-color: var(--accent-color); color: var(--bg-color); font-weight: 900; padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; text-transform: uppercase; z-index: 10; }
 
@@ -76,10 +83,14 @@
         input, textarea, select { width: 100%; background-color: #000; border: 2px solid var(--border-color); border-radius: 20px; padding: 15px; color: var(--text-main); font-family: inherit; margin-bottom: 15px; transition: 0.2s; }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent-color); }
         label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; margin-left: 5px;}
+        .char-counter { font-size: 0.7rem; color: var(--text-dim); text-align: right; margin-top: -10px; margin-bottom: 15px; display: block; }
 
         /* --- COMMUNITY LFG --- */
         .lfg-card { border: 1px solid var(--border-color); padding: 15px; border-radius: 15px; background: rgba(0,0,0,0.5); margin-bottom: 10px; word-break: break-word; display: flex; flex-direction: column; gap: 8px;}
+        .lfg-card.own-post { border-color: #ffcc00; background: rgba(255, 204, 0, 0.05); } /* Highlight eigener Post */
         .lfg-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .skeleton-loader { height: 60px; background: #222; border-radius: 15px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 0.2; } 100% { opacity: 0.6; } }
 
         /* --- LOGIN MODAL --- */
         #loginModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; }
@@ -89,17 +100,16 @@
         /* --- LOADER --- */
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.3s;}
         .spinner { width: 50px; height: 50px; border: 5px solid var(--border-color); border-top-color: var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- PROFILE EDIT MODE --- */
-        .edit-mode-container { display: none; margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; text-align: left;}
+        /* --- ADMIN PANEL (Hidden) --- */
+        #admin-panel { display: none; background: rgba(255, 0, 0, 0.1); border: 2px solid #ff3333; margin-top: 30px; padding: 20px; border-radius: 20px; }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <h2 style="margin-top:20px; letter-spacing: 2px;">LÄDT SERVER...</h2>
+        <h2 style="margin-top:20px; letter-spacing: 2px;">LÄDT PORTAL...</h2>
     </div>
 
     <nav>
@@ -108,10 +118,10 @@
             <a onclick="switchTab('maps')" id="tab-maps" class="active">Maps</a>
             <a onclick="switchTab('community')" id="tab-community">Community</a>
             <a onclick="switchTab('feedback')" id="tab-feedback">Feedback</a>
-            <a onclick="switchTab('profile')" id="tab-profile">Profil 👑</a>
+            <a onclick="switchTab('profile')" id="tab-profile">Profil <span id="nav-badge" style="display:none;">👑</span></a>
         </div>
         <div class="nav-utils">
-            <button class="util-btn" onclick="document.body.classList.toggle('neon-mode')">🌙/⚡</button>
+            <button class="util-btn" onclick="toggleNeon()">🌙/⚡</button>
             <button id="auth-btn" class="btn-login" onclick="toggleLogin()">Login</button>
         </div>
     </nav>
@@ -119,13 +129,14 @@
     <div id="maps" class="section active">
         <div class="map-container">
             <div class="map-card">
+                <div class="badge" style="background:#ff3333; color:white;">LIVE</div>
                 <img src="https://cdn-0001.qstv.on.epicgames.com/QbgiVpDBrBnekIAQsN/image/landscape_comp.jpeg" class="map-thumbnail">
                 <h2>1V1 BUILD FIGHT</h2>
-                <span class="patch-link"><span class="status-dot"></span> Server Online | Update v1.4</span>
-                <div class="tags"><span class="tag">1V1</span><span class="tag">BUILDING</span><span class="tag">COMPETITIVE</span></div>
+                <span class="patch-link"><span class="status-dot"></span> Server Online | Version v1.4</span>
+                <div class="tags"><span class="tag">1V1</span><span class="tag">0 DELAY</span><span class="tag">COMPETITIVE</span></div>
                 <ul class="features-list">
-                    <li>Optimiert und einfach</li>
-                    <li>Immer aktuelle Waffen</li>
+                    <li>Optimiert und minimalistisch</li>
+                    <li>Siphon & Auto-Reset</li>
                     <li>Performance-Modus</li>
                 </ul>
                 <a href="https://www.fortnite.com/play/island/4653-2283-2989" target="_blank" class="btn btn-primary">Jetzt Spielen</a>
@@ -133,16 +144,17 @@
             </div>
 
             <div class="map-card" style="opacity: 0.8;">
-                <div class="badge">Coming Soon</div>
+                <div class="badge">Q3 2026</div>
                 <img src="https://cdn-0001.qstv.on.epicgames.com/QbgiVpDBrBnekIAQsN/image/landscape_comp.jpeg" class="map-thumbnail" style="filter: grayscale(1);">
                 <h2>2V2 BUILD FIGHT</h2>
-                <span class="patch-link" style="color:orange;"><span class="status-dot" style="background:orange;"></span> In UEFN Entwicklung</span>
-                <div class="tags"><span class="tag">2V2</span><span class="tag">0 DELAY</span></div>
+                <span class="patch-link" style="color:orange;"><span class="status-dot" style="background:orange; box-shadow:0 0 10px orange;"></span> In UEFN Entwicklung</span>
+                <div class="tags"><span class="tag">2V2</span><span class="tag">PGF</span></div>
                 <ul class="features-list">
                     <li>3 Voting-Modi (Dynamic, Classic)</li>
-                    <li>Automatischer Build-Reset</li>
+                    <li>Freebuild nach Eliminierung</li>
+                    <li>Zone On/Off Voting</li>
                 </ul>
-                <button class="btn btn-secondary" style="cursor: not-allowed; border-color: #333; color: #555;">Locked</button>
+                <button class="btn btn-secondary" style="cursor: not-allowed; border-color: #333; color: #555;">In Development</button>
             </div>
         </div>
     </div>
@@ -151,40 +163,46 @@
         <div class="grid-2">
             <div class="content-panel">
                 <h2>Suche Duo (LFG) 🤝</h2>
-                <p style="color: var(--text-dim); margin-bottom: 20px;">Live Server Feed.</p>
+                <p style="color: var(--text-dim); margin-bottom: 20px;">Globaler Live-Feed.</p>
                 
                 <div id="lfg-board-server" style="max-height: 400px; overflow-y: auto; margin-bottom: 15px; padding-right: 10px;">
-                    <p style="color: #ffcc00; text-align:center;">Verbinde mit Server...</p>
+                    <div class="skeleton-loader"></div>
+                    <div class="skeleton-loader"></div>
                 </div>
                 
-                <input type="text" id="lfg-input" placeholder="Schreibe ein Gesuch... (Nur für eingeloggte User)">
-                <button class="btn btn-secondary" onclick="postLFGToServer()">Posten</button>
+                <div style="position: relative;">
+                    <input type="text" id="lfg-input" placeholder="Tippe hier und drücke Enter..." maxlength="100" onkeyup="checkEnter(event)">
+                    <span class="char-counter" id="char-count">0/100</span>
+                </div>
+                <button id="lfg-submit-btn" class="btn btn-secondary" onclick="postLFGToServer()">Posten</button>
+                <div id="lfg-error" style="color:#ff3333; font-size:0.8rem; margin-top:5px; display:none;"></div>
             </div>
             
             <div class="content-panel">
                 <h2>Offizieller Discord</h2>
-                <p>Verbinde dich mit anderen Spielern für Turniere und Updates.</p>
-                <a href="https://communities.epicgames.com/community/HN64/phil3663" target="_blank" class="btn btn-primary">Community Beitreten</a>
+                <p>Verbinde dich mit anderen Spielern, um Customs zu spielen oder Bugs im Discord-Ticket zu melden.</p>
+                <a href="https://communities.epicgames.com/community/HN64/phil3663" target="_blank" class="btn btn-primary">Server beitreten</a>
             </div>
         </div>
     </div>
 
     <div id="feedback" class="section">
         <div class="content-panel">
-            <h2>Bug Bounty & Feedback 🐛</h2>
+            <h2>Support & Feedback 🐛</h2>
             <div class="grid-2">
                 <div>
                     <div data-fs-success style="display: none; background: rgba(0, 255, 0, 0.1); border: 1px solid #00ff00; padding: 20px; border-radius: 20px; margin-bottom: 20px; color: #00ff00; text-align: center; font-weight: bold;">
-                        ✅ Dein Feedback wurde gesendet!
+                        ✅ Formular erfolgreich übermittelt!
                     </div>
                     <form id="real-feedback-form">
-                        <input type="text" name="Epic-Name" placeholder="Dein Epic-Name" data-fs-field>
+                        <input type="text" id="feedback-epic" name="Epic-Name" placeholder="Dein Epic-Name" data-fs-field maxlength="16">
                         <select name="Kategorie" required data-fs-field>
-                            <option value="Feature">Map Feature vorschlagen</option>
-                            <option value="Bug">Bug melden</option>
+                            <option value="Feature">Idee / Feature vorschlagen</option>
+                            <option value="Bug">Bug / Glitch melden</option>
+                            <option value="Lob">Lob / Sonstiges</option>
                         </select>
-                        <textarea name="Nachricht" placeholder="Deine Nachricht..." required data-fs-field></textarea>
-                        <button type="submit" class="btn btn-primary" data-fs-submit-btn>Einreichen</button>
+                        <textarea name="Nachricht" placeholder="Beschreibe dein Anliegen..." required minlength="10" data-fs-field></textarea>
+                        <button type="submit" class="btn btn-primary" data-fs-submit-btn>Nachricht Senden</button>
                     </form>
                 </div>
             </div>
@@ -196,40 +214,39 @@
             
             <div id="profile-logged-out">
                 <h2>Nicht angemeldet</h2>
-                <p style="color:var(--text-dim);">Bitte logge dich ein, um dein Profil zu verwalten.</p>
+                <p style="color:var(--text-dim);">Bitte logge dich ein, um dein globales Profil zu speichern.</p>
                 <button class="btn btn-primary" onclick="toggleLogin()" style="max-width: 250px; margin: 20px auto;">Mit Google Anmelden</button>
             </div>
 
             <div id="profile-logged-in" style="display: none;">
-                <div class="badge" style="position:relative; display:inline-block; top:0; right:0; margin-bottom:20px;">VERIFIED ACCOUNT</div>
+                <div id="role-badge" class="badge" style="position:relative; display:inline-block; top:0; right:0; margin-bottom:20px; background: #333;">MEMBER</div>
                 <br>
                 <img id="user-pfp" src="" style="width: 100px; border-radius: 50%; border: 3px solid var(--accent-color); margin-bottom: 15px; box-shadow: 0 0 20px rgba(255,255,255,0.2);">
                 <h2 id="user-display-name">Loading...</h2>
-                <p style="color:var(--accent-color); font-weight:bold;">Rang: MEMBER</p>
+                <p style="color:var(--text-dim); font-size: 0.8rem;">Letzter Login: <span id="last-login-time">Gerade eben</span></p>
                 
                 <div class="grid-3" style="text-align:left; margin-top:30px;">
-                    <div class="lfg-card"><strong>Epic Name:</strong> <span id="display-epic">-</span></div>
+                    <div class="lfg-card"><strong>Epic ID:</strong> <span id="display-epic" style="color:var(--accent-color); font-weight:bold;">-</span></div>
                     <div class="lfg-card"><strong>Input:</strong> <span id="display-input">-</span></div>
-                    <div class="lfg-card"><strong>Sensibilität:</strong> <span id="display-sens">-</span></div>
+                    <div class="lfg-card"><strong>Sens:</strong> <span id="display-sens">-</span></div>
                 </div>
 
-                <button class="btn btn-secondary" onclick="toggleEditMode()" style="max-width: 200px; margin: 20px auto 0;">Profil bearbeiten</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('edit-profile-form').style.display='block'" style="max-width: 200px; margin: 20px auto 0;">Profil bearbeiten</button>
 
-                <div id="edit-profile-form" class="edit-mode-container">
-                    <h3>Account Settings</h3>
-                    <label>Epic Games Name</label>
-                    <input type="text" id="edit-epic" placeholder="Dein In-Game Name">
-                    
+                <div id="edit-profile-form" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px; text-align:left;">
+                    <label>Epic Games Name (Max 16 Zeichen)</label>
+                    <input type="text" id="edit-epic" placeholder="Dein In-Game Name" maxlength="16">
                     <label>Eingabegerät</label>
-                    <select id="edit-input">
-                        <option value="KBM">Maus & Tastatur</option>
-                        <option value="Controller">Controller</option>
-                    </select>
-
+                    <select id="edit-input"><option value="KBM 🖱️">Maus & Tastatur</option><option value="Controller 🎮">Controller</option></select>
                     <label>In-Game Sensibilität</label>
-                    <input type="text" id="edit-sens" placeholder="z.B. 800 DPI, 6.5% X/Y">
-
+                    <input type="text" id="edit-sens" placeholder="z.B. 800 DPI, 6.5%" maxlength="20">
                     <button class="btn btn-primary" onclick="saveProfileToDB()" id="save-profile-btn">Änderungen speichern</button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('edit-profile-form').style.display='none'" style="border-color:#555; color:#555;">Abbrechen</button>
+                </div>
+
+                <div id="admin-panel">
+                    <h3 style="color:#ff3333; margin-top:0;">🛑 OWNER DASHBOARD</h3>
+                    <p style="font-size:0.8rem;">Du bist als Admin eingeloggt. Du kannst LFG-Posts global löschen.</p>
                 </div>
             </div>
 
@@ -240,7 +257,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="toggleLogin()">×</span>
             <h2 style="margin-top:0; font-size: 2rem;">SERVER LOGIN</h2>
-            <p style="color: #888; margin-bottom: 30px;">Nutze deinen Google Account für das Portal.</p>
             <button class="btn btn-google" onclick="loginWithGoogle()">
                 <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill-rule="evenodd" fill-opacity="1"></path></svg>
                 Mit Google anmelden
@@ -250,32 +266,64 @@
     </div>
 
     <script>
+        const ADMIN_EMAIL = "schleimyverteilung@gmail.com";
+
+        // Tab Switching mit LocalStorage Persistenz
         function switchTab(tabId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             document.getElementById('tab-' + tabId).classList.add('active');
+            localStorage.setItem('activeTab', tabId); // Speichere letzten Tab
+            window.scrollTo(0,0);
         }
+
+        // Neon Mode Toggle mit Persistenz
+        function toggleNeon() { 
+            document.body.classList.toggle('neon-mode'); 
+            const isNeon = document.body.classList.contains('neon-mode');
+            localStorage.setItem('neonMode', isNeon);
+        }
+
+        // Beim Laden der Seite: Gespeicherte Einstellungen abrufen
+        window.onload = () => {
+            console.log("%cPHILPW OFFICIAL PORTAL", "color: #00ffff; font-size: 20px; font-weight: bold;");
+            
+            // Lade Neon Mode
+            if(localStorage.getItem('neonMode') === 'true') { document.body.classList.add('neon-mode'); }
+            
+            // Lade letzten Tab (Default: maps)
+            const savedTab = localStorage.getItem('activeTab') || 'maps';
+            switchTab(savedTab);
+
+            // Loader ausblenden
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 300);
+            }, 800);
+        };
+
+        // UI Utils
         function toggleLogin() {
             const modal = document.getElementById('loginModal');
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
         function copyCode(code, btn) {
             navigator.clipboard.writeText(code).then(() => {
-                btn.innerText = "Kopiert!"; btn.style.backgroundColor = "var(--accent-color)"; btn.style.color = "var(--bg-color)";
-                setTimeout(() => { btn.innerText = "Code: " + code; btn.style.backgroundColor = "transparent"; btn.style.color = "var(--accent-color)"; }, 2000);
+                const oldText = btn.innerText;
+                btn.innerText = "Kopiert! ✓"; btn.style.backgroundColor = "var(--accent-color)"; btn.style.color = "var(--bg-color)";
+                setTimeout(() => { btn.innerText = oldText; btn.style.backgroundColor = "transparent"; btn.style.color = "var(--accent-color)"; }, 2000);
             });
         }
-        function toggleEditMode() {
-            const editForm = document.getElementById('edit-profile-form');
-            editForm.style.display = (editForm.style.display === 'block') ? 'none' : 'block';
-        }
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 300);
-            }, 800);
+
+        // LFG Input Charakter Zähler & Enter-Taste
+        const lfgInput = document.getElementById('lfg-input');
+        lfgInput.addEventListener('input', function() {
+            document.getElementById('char-count').innerText = `${this.value.length}/100`;
         });
+        function checkEnter(event) {
+            if (event.key === "Enter") { postLFGToServer(); }
+        }
     </script>
 
     <script>
@@ -290,7 +338,9 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // ========================================================
         // DEINE ECHTEN KEYS
+        // ========================================================
         const firebaseConfig = {
             apiKey: "AIzaSyDkDP9Z7Pv7MLpS0olVq8bkwvGrle5NKsk",
             authDomain: "philpw-portal.firebaseapp.com",
@@ -306,61 +356,84 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
+        // Admin Konstante (aus dem vorherigen Script-Tag)
+        const ADMIN_EMAIL = "schleimyverteilung@gmail.com";
+        let isAdmin = false;
+        let lastPostTime = 0; // Für Spam-Schutz
+
         // --- AUTH LOGIK ---
         window.loginWithGoogle = async () => {
-            document.getElementById('auth-error').innerText = "Verbinde mit Google...";
-            try {
-                await signInWithPopup(auth, provider);
-                toggleLogin();
-            } catch (error) {
-                document.getElementById('auth-error').innerText = "Fehler: " + error.message;
-            }
+            document.getElementById('auth-error').innerText = "Verbinde...";
+            try { await signInWithPopup(auth, provider); toggleLogin(); } 
+            catch (error) { document.getElementById('auth-error').innerText = "Fehler: " + error.message; }
         };
 
         window.logoutUser = async () => {
-            await signOut(auth);
-            switchTab('maps'); // Springe nach Logout auf Startseite
+            if(confirm("Willst du dich wirklich ausloggen?")) {
+                await signOut(auth);
+                switchTab('maps');
+            }
         };
 
         // --- AUTH STATE & PROFIL LADEN ---
         onAuthStateChanged(auth, async (user) => {
             const authBtn = document.getElementById('auth-btn');
-            const loggedOutDiv = document.getElementById('profile-logged-out');
-            const loggedInDiv = document.getElementById('profile-logged-in');
-
+            const navBadge = document.getElementById('nav-badge');
+            
             if (user) {
-                // UI anpassen
+                // Admin Check
+                isAdmin = (user.email === ADMIN_EMAIL);
+                
                 authBtn.innerText = "Logout";
                 authBtn.onclick = logoutUser;
-                loggedOutDiv.style.display = "none";
-                loggedInDiv.style.display = "block";
+                document.getElementById('profile-logged-out').style.display = "none";
+                document.getElementById('profile-logged-in').style.display = "block";
+                navBadge.style.display = "inline"; // Zeige Krone im Menü
                 
                 // Basis-Daten setzen
                 document.getElementById('user-pfp').src = user.photoURL;
                 document.getElementById('user-display-name').innerText = user.displayName;
+                
+                // Admin UI anpassen
+                const roleBadge = document.getElementById('role-badge');
+                if(isAdmin) {
+                    roleBadge.innerText = "OWNER";
+                    roleBadge.style.background = "#ff3333";
+                    document.getElementById('admin-panel').style.display = "block";
+                } else {
+                    roleBadge.innerText = "MEMBER";
+                    roleBadge.style.background = "#333";
+                    document.getElementById('admin-panel').style.display = "none";
+                }
 
-                // 🚀 Lade erweiterte Profil-Daten aus Firestore
+                // Profil-Daten aus DB laden
                 const docRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(docRef);
                 
+                let savedEpic = "";
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    // UI updaten
-                    document.getElementById('display-epic').innerText = data.epicName || "Nicht gesetzt";
+                    savedEpic = data.epicName || "";
+                    document.getElementById('display-epic').innerText = savedEpic || "Nicht gesetzt";
                     document.getElementById('display-input').innerText = data.inputMethod || "Nicht gesetzt";
                     document.getElementById('display-sens').innerText = data.sensitivity || "Nicht gesetzt";
                     
-                    // Formular vorausfüllen
-                    document.getElementById('edit-epic').value = data.epicName || "";
-                    document.getElementById('edit-input').value = data.inputMethod || "KBM";
+                    document.getElementById('edit-epic').value = savedEpic;
+                    document.getElementById('edit-input').value = data.inputMethod || "KBM 🖱️";
                     document.getElementById('edit-sens').value = data.sensitivity || "";
                 }
+
+                // Autofill Feedback-Formular
+                if(savedEpic) { document.getElementById('feedback-epic').value = savedEpic; }
+
             } else {
+                isAdmin = false;
                 authBtn.innerText = "Login";
                 authBtn.onclick = toggleLogin;
-                loggedOutDiv.style.display = "block";
-                loggedInDiv.style.display = "none";
-                document.getElementById('edit-profile-form').style.display = "none"; // Schließe Formular falls offen
+                navBadge.style.display = "none";
+                document.getElementById('profile-logged-out').style.display = "block";
+                document.getElementById('profile-logged-in').style.display = "none";
+                document.getElementById('edit-profile-form').style.display = "none";
             }
         });
 
@@ -371,28 +444,26 @@
             
             const btn = document.getElementById('save-profile-btn');
             btn.innerText = "Speichere...";
-
-            const newEpic = document.getElementById('edit-epic').value;
+            
+            const newEpic = document.getElementById('edit-epic').value.trim();
             const newInput = document.getElementById('edit-input').value;
-            const newSens = document.getElementById('edit-sens').value;
+            const newSens = document.getElementById('edit-sens').value.trim();
 
             try {
-                // setDoc mit {merge: true} überschreibt nur die angegebenen Felder
                 await setDoc(doc(db, "users", user.uid), {
-                    epicName: newEpic,
-                    inputMethod: newInput,
-                    sensitivity: newSens,
-                    updatedAt: serverTimestamp()
+                    epicName: newEpic, inputMethod: newInput, sensitivity: newSens, updatedAt: serverTimestamp()
                 }, { merge: true });
                 
-                // Update das UI direkt
                 document.getElementById('display-epic').innerText = newEpic || "Nicht gesetzt";
                 document.getElementById('display-input').innerText = newInput || "Nicht gesetzt";
                 document.getElementById('display-sens').innerText = newSens || "Nicht gesetzt";
                 
-                toggleEditMode(); // Formular schließen
+                document.getElementById('edit-profile-form').style.display = "none";
                 btn.innerText = "Änderungen speichern";
-                alert("Profil erfolgreich aktualisiert!");
+                
+                // Feedback Formular live updaten
+                document.getElementById('feedback-epic').value = newEpic;
+                
             } catch (error) {
                 alert("Fehler beim Speichern: " + error.message);
                 btn.innerText = "Änderungen speichern";
@@ -408,7 +479,7 @@
             board.innerHTML = ''; 
             
             if (snapshot.empty) {
-                board.innerHTML = '<p style="color: var(--text-dim);">Noch keine Einträge vorhanden.</p>';
+                board.innerHTML = '<p style="color: var(--text-dim); text-align:center;">Sei der Erste, der nach einem Duo sucht!</p>';
             }
 
             snapshot.forEach((docSnap) => {
@@ -422,61 +493,100 @@
                     timeString = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 }
 
-                // Löschen-Button (Nur anzeigen, wenn User der Autor ist)
                 const currentUser = auth.currentUser;
+                const isOwnPost = (currentUser && data.uid === currentUser.uid);
+                
+                // Löschen Button Logik (Autor oder Admin)
                 let deleteHtml = "";
-                if(currentUser && data.uid === currentUser.uid) {
-                    deleteHtml = `<button class="btn-delete" onclick="deleteLFG('${postId}')">X Löschen</button>`;
+                if(isOwnPost || isAdmin) {
+                    const btnLabel = isAdmin && !isOwnPost ? "🚨 Admin Delete" : "X Löschen";
+                    deleteHtml = `<button class="btn-delete" onclick="deleteLFG('${postId}')">${btnLabel}</button>`;
                 }
 
+                // Card Styling (Eigener Post wird hervorgehoben)
+                const cardClass = isOwnPost ? "lfg-card own-post" : "lfg-card";
+                
+                // Text Sanitization (HTML Tags blockieren)
+                const safeText = data.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
                 board.innerHTML += `
-                    <div class="lfg-card">
+                    <div class="${cardClass}">
                         <div class="lfg-header">
                             <div>
-                                <strong style="color: var(--accent-color); font-size: 1rem;">@${data.author}</strong>
+                                <strong style="color: var(--accent-color); font-size: 1rem; cursor:pointer;" title="In die Zwischenablage kopieren" onclick="copyEpic('@${data.author}')">@${data.author}</strong>
                                 <span style="font-size: 0.7rem; color: #555; margin-left: 5px;">${timeString}</span>
                             </div>
                             ${deleteHtml}
                         </div>
-                        <div style="padding-top: 8px; font-size: 0.95rem; line-height: 1.4;">${data.text}</div>
+                        <div style="padding-top: 8px; font-size: 0.95rem; line-height: 1.4;">${safeText}</div>
                     </div>
                 `;
             });
-        }, (error) => {
-            document.getElementById('lfg-board-server').innerHTML = '<p style="color:#ff3333;">Datenbank-Regeln blockieren aktuell das Lesen.</p>';
         });
 
-        // --- LFG POSTEN ---
+        // --- LFG POSTEN (Mit Spam-Schutz) ---
         window.postLFGToServer = async () => {
             const input = document.getElementById('lfg-input');
-            const text = input.value;
+            const errorDiv = document.getElementById('lfg-error');
+            const text = input.value.trim();
             const user = auth.currentUser;
 
-            if (!user) { alert("Bitte logge dich ein, um posten zu können."); return; }
-            if (!text.trim()) return;
+            errorDiv.style.display = "none";
+
+            if (!user) { errorDiv.innerText = "Bitte logge dich oben ein."; errorDiv.style.display = "block"; return; }
+            if (!text) return;
+            
+            // 30 Sekunden Spam-Schutz (Admins ignoriert)
+            const now = Date.now();
+            if(!isAdmin && now - lastPostTime < 30000) {
+                errorDiv.innerText = "Spam-Schutz: Bitte warte 30 Sekunden."; errorDiv.style.display = "block"; return;
+            }
+
+            // Lade Button
+            const submitBtn = document.getElementById('lfg-submit-btn');
+            submitBtn.innerText = "Wird gesendet...";
+            submitBtn.disabled = true;
 
             try {
+                // Versuche, den In-Game Namen aus dem Profil zu ziehen, sonst Google Name
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+                let authorName = user.displayName;
+                if(docSnap.exists() && docSnap.data().epicName) {
+                    authorName = docSnap.data().epicName;
+                }
+
                 await addDoc(lfgRef, {
                     text: text,
-                    author: user.displayName,
-                    uid: user.uid, // WICHTIG: Sichert den Post für die Lösch-Funktion
+                    author: authorName,
+                    uid: user.uid,
                     createdAt: serverTimestamp()
                 });
+                
                 input.value = ''; 
+                document.getElementById('char-count').innerText = "0/100";
+                lastPostTime = Date.now();
             } catch (e) {
-                alert("Fehler beim Posten: " + e.message);
+                errorDiv.innerText = "Datenbank-Fehler. (Rules aktualisiert?)"; errorDiv.style.display = "block";
             }
+            
+            submitBtn.innerText = "Posten";
+            submitBtn.disabled = false;
         };
 
         // --- LFG LÖSCHEN ---
         window.deleteLFG = async (postId) => {
-            if(confirm("Diesen Post wirklich löschen?")) {
-                try {
-                    await deleteDoc(doc(db, "lfg_posts", postId));
-                } catch (e) {
-                    alert("Fehler beim Löschen: " + e.message);
-                }
+            if(confirm("Post unwiderruflich löschen?")) {
+                try { await deleteDoc(doc(db, "lfg_posts", postId)); } 
+                catch (e) { alert("Zugriff verweigert."); }
             }
+        };
+
+        // Utility: Klick auf Name im LFG
+        window.copyEpic = (name) => {
+            const cleanName = name.replace('@', '');
+            navigator.clipboard.writeText(cleanName);
+            alert(cleanName + " in die Zwischenablage kopiert!");
         };
     </script>
 
